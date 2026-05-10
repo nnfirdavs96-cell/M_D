@@ -1,0 +1,11 @@
+/* slinky.menu.css — мобильное аккордеон-меню */
+.Offcanvas_menu_wrapper { display: none; position: fixed; top: 0; left: 0; width: 300px; height: 100%; background: #fff; z-index: 9999; overflow-y: auto; padding: 20px; box-shadow: 2px 0 10px rgba(0,0,0,.2); }
+.Offcanvas_menu_wrapper.active { display: block; }
+.canvas_close { text-align: right; margin-bottom: 20px; font-size: 24px; cursor: pointer; }
+.offcanvas_main_menu { list-style: none; padding: 0; margin: 0; }
+.offcanvas_main_menu li { border-bottom: 1px solid #eee; }
+.offcanvas_main_menu li a { display: block; padding: 10px 0; color: #333; text-decoration: none; }
+.offcanvas_main_menu .sub-menu { display: none; list-style: none; padding-left: 15px; }
+.off_canvars_overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 9998; }
+.canvas_open { display: none; align-items: center; gap: 8px; cursor: pointer; }
+@media (max-width: 991px) { .canvas_open { display: flex; } }

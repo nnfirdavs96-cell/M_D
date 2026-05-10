@@ -1,0 +1,20 @@
+/* plugins.css — Linearicons (lnr) иконки */
+@font-face {
+  font-family: 'Linearicons-Free';
+  src: url('https://cdn.linearicons.com/free/1.0.0/Linearicons-Free.eot');
+  src: url('https://cdn.linearicons.com/free/1.0.0/Linearicons-Free.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.linearicons.com/free/1.0.0/Linearicons-Free.woff2') format('woff2'),
+       url('https://cdn.linearicons.com/free/1.0.0/Linearicons-Free.woff') format('woff'),
+       url('https://cdn.linearicons.com/free/1.0.0/Linearicons-Free.ttf') format('truetype'),
+       url('https://cdn.linearicons.com/free/1.0.0/Linearicons-Free.svg#Linearicons-Free') format('svg');
+  font-weight: normal; font-style: normal;
+}
+.lnr { font-family: 'Linearicons-Free'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; -webkit-font-smoothing: antialiased; }
+.lnr-home:before { content: "\e800"; }
+.lnr-heart:before { content: "\e840"; }
+.lnr-star:before { content: "\e841"; }
+.lnr-cart:before { content: "\e844"; }
+.lnr-magnifier:before { content: "\e86f"; }
+.lnr-sync:before { content: "\e877"; }
+.lnr-user:before { content: "\e830"; }
+.lnr-cross:before { content: "\e870"; }
