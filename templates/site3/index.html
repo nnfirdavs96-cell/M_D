@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ДЕТАЛЬМАШ — Автозапчасти</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #f97316;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --bg: #fff;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-serif: Georgia, "Times New Roman", serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: var(--font); }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announce-bar {
+      background: var(--text);
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      padding: 8px 20px;
+    }
+    .announce-bar span { opacity: 0.6; margin: 0 8px; }
+
+    /* ── HEADER ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .logo {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .logo em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .header-search {
+      flex: 1;
+      position: relative;
+      max-width: 480px;
+    }
+    .header-search input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 8px 40px 8px 14px;
+      font-size: 13px;
+      font-family: var(--font);
+      background: #f9fafb;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .header-search input:focus { border-color: var(--accent); background: #fff; }
+    .header-search input::placeholder { color: var(--muted); }
+    .header-search .search-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 13px;
+      pointer-events: none;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-left: auto;
+    }
+    .header-nav a {
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+      transition: color 0.15s;
+    }
+    .header-nav a:hover { color: var(--text); }
+
+    .cart-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 6px 14px;
+      transition: border-color 0.15s;
+    }
+    .cart-btn:hover { border-color: var(--accent); }
+    .cart-count {
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 80px 32px 72px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-left {}
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+    .hero-title span { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 420px;
+    }
+
+    .hero-search {
+      position: relative;
+      margin-bottom: 48px;
+    }
+    .hero-search input {
+      width: 100%;
+      border: 2px solid var(--text);
+      border-radius: 4px;
+      padding: 16px 52px 16px 20px;
+      font-size: 15px;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .hero-search input:focus { border-color: var(--accent); }
+    .hero-search input::placeholder { color: var(--muted); }
+    .hero-search .search-icon {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 16px;
+      pointer-events: none;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── HERO RIGHT — category grid ── */
+    .hero-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .cat-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 24px 20px;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cat-card::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: var(--accent);
+      margin-bottom: 14px;
+    }
+    .cat-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .cat-card i {
+      font-size: 22px;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .cat-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+    .cat-card-count {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 64px 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .section-link {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 1px;
+    }
+
+    /* ── PRODUCTS ROW ── */
+    .products-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+    }
+    .products-scroll::-webkit-scrollbar { display: none; }
+
+    .product-card {
+      flex: 0 0 220px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0;
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+    .product-card:hover { border-color: var(--text); }
+
+    .product-img {
+      width: 100%;
+      height: 160px;
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .product-img i { font-size: 32px; color: #d1d5db; }
+
+    .product-body { padding: 16px; }
+    .product-part {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      display: inline-block;
+      padding: 2px 7px;
+      margin-bottom: 8px;
+    }
+    .product-name {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      min-height: 36px;
+    }
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .product-price {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .product-price sup {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted);
+      vertical-align: super;
+    }
+    .add-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 14px;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .add-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── BRANDS ── */
+    .brands-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .brand-item {
+      padding: 20px 24px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .brand-item:hover { background: #f9fafb; }
+    .brand-item:nth-child(4n) { border-right: none; }
+    .brand-item:nth-last-child(-n+4) { border-bottom: none; }
+
+    .brand-flag { font-size: 22px; line-height: 1; }
+    .brand-info {}
+    .brand-name {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .brand-country {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step-num {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--text);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .step-title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .step-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .step-accent-line {
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 48px 32px 32px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand .logo { font-size: 14px; margin-bottom: 12px; display: block; }
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 240px;
+    }
+
+    .footer-col-title {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      transition: color 0.12s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-bottom {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .footer-bottom a { color: var(--muted); }
+    .footer-bottom a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announce-bar">
+    <i class="fa-solid fa-truck-fast"></i>&nbsp;
+    Бесплатная доставка от 3&nbsp;000&nbsp;₽
+    <span>·</span>
+    Более 50&nbsp;000 позиций в наличии
+    <span>·</span>
+    Возврат в течение 30 дней
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="logo">ДЕТАЛЬ<em>МАШ</em></a>
+
+      <div class="header-search">
+        <input type="text" placeholder="Артикул, название, марка авто...">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      </div>
+
+      <nav class="header-nav">
+        <a href="#">Каталог</a>
+        <a href="#">Бренды</a>
+        <a href="#">Доставка</a>
+        <a href="#">О нас</a>
+        <button class="cart-btn">
+          <i class="fa-solid fa-bag-shopping"></i>
+          Корзина
+          <span class="cart-count">3</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Профессиональные автозапчасти</p>
+      <h1 class="hero-title">
+        НАЙДИ<br>
+        НУЖНУЮ<br>
+        <span>ДЕТАЛЬ</span>
+      </h1>
+      <p class="hero-sub">
+        Оригинальные и аналоговые запчасти для любого автомобиля.
+        Быстрая доставка, гарантия качества, честные цены.
+      </p>
+      <div class="hero-search">
+        <input type="text" placeholder="Введите артикул или название детали...">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">50&thinsp;000+</span>
+          <span class="stat-label">позиций</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">100+</span>
+          <span class="stat-label">брендов</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">24ч</span>
+          <span class="stat-label">доставка</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="cat-card">
+        <i class="fa-solid fa-gear"></i>
+        <div class="cat-card-title">Двигатель</div>
+        <div class="cat-card-count">12&thinsp;400 позиций</div>
+      </div>
+      <div class="cat-card">
+        <i class="fa-solid fa-circle-notch"></i>
+        <div class="cat-card-title">Тормозная система</div>
+        <div class="cat-card-count">8&thinsp;200 позиций</div>
+      </div>
+      <div class="cat-card">
+        <i class="fa-solid fa-car-side"></i>
+        <div class="cat-card-title">Подвеска</div>
+        <div class="cat-card-count">9&thinsp;700 позиций</div>
+      </div>
+      <div class="cat-card">
+        <i class="fa-solid fa-bolt"></i>
+        <div class="cat-card-title">Электрика</div>
+        <div class="cat-card-count">6&thinsp;100 позиций</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Популярные позиции</h2>
+      <a href="#" class="section-link">Весь каталог &rarr;</a>
+    </div>
+    <div class="products-scroll">
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-circle-notch"></i></div>
+        <div class="product-body">
+          <span class="product-part">TRW BH-834</span>
+          <div class="product-name">Тормозные колодки передние</div>
+          <div class="product-footer">
+            <div class="product-price">1&thinsp;290<sup>₽</sup></div>
+            <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-filter"></i></div>
+        <div class="product-body">
+          <span class="product-part">MANN W 712/4</span>
+          <div class="product-name">Фильтр масляный</div>
+          <div class="product-footer">
+            <div class="product-price">380<sup>₽</sup></div>
+            <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-car-burst"></i></div>
+        <div class="product-body">
+          <span class="product-part">KYB 339044</span>
+          <div class="product-name">Амортизатор задний</div>
+          <div class="product-footer">
+            <div class="product-price">3&thinsp;740<sup>₽</sup></div>
+            <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-bolt"></i></div>
+        <div class="product-body">
+          <span class="product-part">BOSCH 0 986 479</span>
+          <div class="product-name">Аккумулятор 60 Ач AGM</div>
+          <div class="product-footer">
+            <div class="product-price">7&thinsp;990<sup>₽</sup></div>
+            <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-droplet"></i></div>
+        <div class="product-body">
+          <span class="product-part">FEBI 32411</span>
+          <div class="product-name">Жидкость охлаждающая G12 5л</div>
+          <div class="product-footer">
+            <div class="product-price">890<sup>₽</sup></div>
+            <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img"><i class="fa-solid fa-gear"></i></div>
+        <div class="product-body">
+          <span class="product-part">SKF VKMC 01250</span>
+          <div class="product-name">Ремень ГРМ с роликами</div>
+          <div class="product-footer">
+            <div class="product-price">5&thinsp;120<sup>₽</sup></div>
+            <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOP BRANDS -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Топ бренды</h2>
+      <a href="#" class="section-link">Все бренды &rarr;</a>
+    </div>
+    <div class="brands-grid">
+
+      <div class="brand-item">
+        <span class="brand-flag">🇩🇪</span>
+        <div class="brand-info">
+          <div class="brand-name">Bosch</div>
+          <div class="brand-country">Германия</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <span class="brand-flag">🇩🇪</span>
+        <div class="brand-info">
+          <div class="brand-name">Mann-Filter</div>
+          <div class="brand-country">Германия</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <span class="brand-flag">🇯🇵</span>
+        <div class="brand-info">
+          <div class="brand-name">KYB</div>
+          <div class="brand-country">Япония</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <span class="brand-flag">🇸🇪</span>
+        <div class="brand-info">
+          <div class="brand-name">SKF</div>
+          <div class="brand-country">Швеция</div>
+        </div>
+      </div>
+
+      <div class="brand-item">
+        <span class="brand-flag">🇬🇧</span>
+        <div class="brand-info">
+          <div class="brand-name">TRW</div>
+          <div class="brand-country">Великобритания</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <span class="brand-flag">🇩🇪</span>
+        <div class="brand-info">
+          <div class="brand-name">Febi Bilstein</div>
+          <div class="brand-country">Германия</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <span class="brand-flag">🇫🇷</span>
+        <div class="brand-info">
+          <div class="brand-name">Valeo</div>
+          <div class="brand-country">Франция</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <span class="brand-flag">🇯🇵</span>
+        <div class="brand-info">
+          <div class="brand-name">Denso</div>
+          <div class="brand-country">Япония</div>
+        </div>
+      </div>
+
+      <div class="brand-item">
+        <span class="brand-flag">🇩🇪</span>
+        <div class="brand-info">
+          <div class="brand-name">Sachs</div>
+          <div class="brand-country">Германия</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <span class="brand-flag">🇩🇪</span>
+        <div class="brand-info">
+          <div class="brand-name">Continental</div>
+          <div class="brand-country">Германия</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <span class="brand-flag">🇩🇪</span>
+        <div class="brand-info">
+          <div class="brand-name">Hella</div>
+          <div class="brand-country">Германия</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <span class="brand-flag">🇰🇷</span>
+        <div class="brand-info">
+          <div class="brand-name">Mobis</div>
+          <div class="brand-country">Южная Корея</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Как это работает</h2>
+    </div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-accent-line"></div>
+        <div class="step-title">Найдите деталь</div>
+        <p class="step-desc">
+          Введите артикул, название или выберите марку и модель автомобиля.
+          Наша база содержит более 50&thinsp;000 позиций от проверенных поставщиков.
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-accent-line"></div>
+        <div class="step-title">Оформите заказ</div>
+        <p class="step-desc">
+          Добавьте товары в корзину и оформите заказ онлайн. Принимаем карты,
+          наличные и оплату при получении. Без скрытых комиссий.
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-accent-line"></div>
+        <div class="step-title">Получите быстро</div>
+        <p class="step-desc">
+          Доставим курьером до двери или до удобного пункта выдачи в течение
+          24 часов. Бесплатная доставка при заказе от 3&thinsp;000&nbsp;₽.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <span class="logo">ДЕТАЛЬ<em style="color:var(--accent);font-style:normal;">МАШ</em></span>
+        <p>
+          Профессиональные автозапчасти с доставкой по всей России.
+          Работаем с 2010 года. Более 50&thinsp;000 позиций в наличии.
+        </p>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Каталог</div>
+        <ul class="footer-links">
+          <li><a href="#">Двигатель</a></li>
+          <li><a href="#">Тормоза</a></li>
+          <li><a href="#">Подвеска</a></li>
+          <li><a href="#">Электрика</a></li>
+          <li><a href="#">Кузов</a></li>
+          <li><a href="#">Все категории</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Информация</div>
+        <ul class="footer-links">
+          <li><a href="#">О компании</a></li>
+          <li><a href="#">Доставка и оплата</a></li>
+          <li><a href="#">Возврат</a></li>
+          <li><a href="#">Гарантия</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Контакты</div>
+        <ul class="footer-links">
+          <li><a href="tel:+74951234567"><i class="fa-solid fa-phone" style="color:var(--accent);width:14px;"></i> +7 (495) 123-45-67</a></li>
+          <li><a href="mailto:info@detalmash.ru"><i class="fa-solid fa-envelope" style="color:var(--accent);width:14px;"></i> info@detalmash.ru</a></li>
+          <li style="color:var(--muted);font-size:13px;margin-top:4px;">Пн–Пт 9:00–20:00</li>
+          <li style="color:var(--muted);font-size:13px;">Сб–Вс 10:00–18:00</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 ДЕТАЛЬМАШ. Все права защищены.</span>
+      <span>
+        <a href="#">Политика конфиденциальности</a>
+        &nbsp;&middot;&nbsp;
+        <a href="#">Оферта</a>
+      </span>
+    </div>
+  </footer>
+
+</body>
+</html>
